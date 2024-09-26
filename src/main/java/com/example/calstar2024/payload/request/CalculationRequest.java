@@ -1,9 +1,11 @@
 package com.example.calstar2024.payload.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import org.springframework.lang.NonNull;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class CalculationRequest {
@@ -18,7 +20,8 @@ public class CalculationRequest {
     private String interestPeriod, calculationType;
 
     @Nonnull
-    private Date startDate, endDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate startDate, endDate;
 
     public CalculationRequest() {
 
@@ -79,20 +82,20 @@ public class CalculationRequest {
     }
 
     @Nonnull
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(@Nonnull Date startDate) {
+    public void setStartDate(@Nonnull LocalDate startDate) {
         this.startDate = startDate;
     }
 
     @Nonnull
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(@Nonnull Date endDate) {
+    public void setEndDate(@Nonnull LocalDate endDate) {
         this.endDate = endDate;
     }
 }

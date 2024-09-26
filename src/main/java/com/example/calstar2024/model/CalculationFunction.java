@@ -14,12 +14,27 @@ public class CalculationFunction {
     public static List<CalculationObject> SimpleInterest(CalculationRequest calculationRequest) {
         List<CalculationObject> list = new ArrayList<>();
 
-        return list;
-    }
+        for(int i = 0; i < calculateMonths(calculationRequest.getStartDate(), calculationRequest.getEndDate()); i++) {
+            CalculationObject calculationObject = new CalculationObject();
 
-    private static void getMonthlyPartition(String start, String end) {
-        LocalDate startDate = LocalDate.of(Integer.parseInt(start.substring(6)), Integer.parseInt(start.substring(3, 5)), Integer.parseInt(start.substring(0, 2)));
-        LocalDate endDate = LocalDate.of(Integer.parseInt(end.substring(6)), Integer.parseInt(end.substring(3, 5)), Integer.parseInt(end.substring(0, 2)));
+            calculationObject.setInterestOn(calculationRequest.getInterestOn());
+            calculationObject.setBasicRate(calculationObject.getBasicRate());
+            calculationObject.setStartDate(getStartDate(i+1, calculationRequest.getStartDate()));
+            calculationObject.setBasicRate(calculationRequest.getBasicRate());
+            calculationObject.setEndDate(getEndDate(i+1, calculationRequest.getStartDate(), calculationRequest.getEndDate()));
+            calculationObject.setDuration((int) (ChronoUnit.DAYS.between(calculationObject.getStartDate(), calculationObject.getEndDate()) + 1));
+            calculationObject.setInterestAmount(calculationRequest.getInterestOn() * calculationRequest.getBasicRate() * calculationObject.getDuration() / 100);
+            if (i < 1) {
+                calculationObject.setTotal(calculationRequest.getInterestOn() + calculationObject.getInterestAmount());
+            }
+            else {
+                calculationObject.setTotal(list.get(i - 1).getTotal() + calculationObject.getInterestAmount());
+            }
+
+            list.add(calculationObject);
+        }
+
+        return list;
     }
 
     private static LocalDate getStartDate(int value, LocalDate startDate) {
@@ -52,38 +67,4 @@ public class CalculationFunction {
 
         return ChronoUnit.MONTHS.between(startYearMonth, endYearMonth);
     }
-
-    private static long calculateDuration(int value, LocalDate startDate, LocalDate endDate) {
-        LocalDate calculatedStartDate = getStartDate(value, startDate);
-        LocalDate calculatedEndDate = getEndDate(value, startDate, endDate);
-
-        return ChronoUnit.DAYS.between(calculatedStartDate, calculatedEndDate) + 1;
-    }
-
-    class MonthlyPartition {
-        private String startDate;
-        private String endDate;
-
-        public MonthlyPartition(String startDate, String endDate) {
-            this.startDate = startDate;
-            this.endDate = endDate;
-        }
-
-        public String getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(String startDate) {
-            this.startDate = startDate;
-        }
-
-        public String getEndDate() {
-            return endDate;
-        }
-
-        public void setEndDate(String endDate) {
-            this.endDate = endDate;
-        }
-    }
-
 }

@@ -1,5 +1,8 @@
 package com.example.calstar2024.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 public class CalculationObject {
@@ -7,7 +10,8 @@ public class CalculationObject {
 
     private Integer duration;
 
-    private Date startDate, endDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate startDate, endDate;
 
     public Double getInterestOn() {
         return interestOn;
@@ -49,19 +53,19 @@ public class CalculationObject {
         this.duration = duration;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
